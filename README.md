@@ -25,7 +25,7 @@ En Linux, Chromium puede pedir librerías del sistema: `npx playwright install-d
 ## Instalar
 
 ```bash
-git clone https://github.com/<tu-usuario>/supreme-skill.git
+git clone https://github.com/kejy120/supreme-skill.git
 cd supreme-skill
 ./scripts/install.sh
 ```
