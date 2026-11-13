@@ -1,0 +1,8 @@
+node_modules/
+*.bak-*
+.supreme/
+qa-out/
+.env
+.env.*
+*.pem
+*.key

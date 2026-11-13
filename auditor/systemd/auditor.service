@@ -1,0 +1,10 @@
+[Unit]
+Description=Auditor en bucle (verify.mjs + juez Codex de solo lectura)
+
+[Service]
+Type=oneshot
+# Sustituye @REPO@ por la ruta de este repo y @NODEBIN@ por la carpeta bin de tu Node >= 20.
+Environment=PATH=@NODEBIN@:%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+WorkingDirectory=@REPO@/auditor
+ExecStart=/usr/bin/env node @REPO@/auditor/auditor-loop.mjs --once
+SuccessExitStatus=0 1

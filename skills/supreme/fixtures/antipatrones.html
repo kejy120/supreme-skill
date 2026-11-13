@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pagina mala a proposito</title>
+<style>
+  body{margin:0;font:16px system-ui;background:#fff}
+  section{min-height:100vh;padding:4rem}
+  /* ANTIPATRON 1: animar propiedades que fuerzan layout en cada frame */
+  .box{
+    position:relative;width:200px;height:200px;background:#333;
+    transition: top .4s ease, left .4s ease, width .4s ease, height .4s ease;
+    top:0;left:0;
+  }
+  @keyframes crecer { from{ width:100px; margin-left:0 } to{ width:400px; margin-left:120px } }
+  .grow{ animation: crecer 2s infinite alternate; height:80px; background:#a33 }
+  /* ANTIPATRON 2: ninguna regla de prefers-reduced-motion */
+  /* ANTIPATRON 3: imagen sin dimensiones -> layout shift al cargar */
+</style>
+</head>
+<body>
+<section>
+  <h1>Pagina mala a proposito</h1>
+  <div class="box" id="b"></div>
+  <div class="grow"></div>
+  <img id="late" alt="">
+</section>
+<section><h2>Dos</h2></section>
+<section><h2>Tres</h2></section>
+<script>
+// ANTIPATRON 4: listener de scroll no-passive en codigo propio, con trabajo sincrono pesado
+window.addEventListener('scroll', function () {
+  var b = document.getElementById('b');
+  // leer geometria y escribirla = thrash de layout en cada evento
+  var r = b.getBoundingClientRect();
+  b.style.top = (window.scrollY * 0.3) + 'px';
+  b.style.left = (r.width * 0.1) + 'px';
+  var s = 0; for (var i = 0; i < 900000; i++) s += Math.sqrt(i);
+  b.dataset.s = s;
+});
+// ANTIPATRON 5: long task en el arranque
+(function(){ var t = performance.now(), x = 0; while (performance.now() - t < 320) x += Math.random(); })();
+// ANTIPATRON 6: insertar una imagen grande sin reservar espacio -> CLS
+setTimeout(function(){
+  var i = document.getElementById('late');
+  i.src = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500"><rect width="900" height="500" fill="#ccc"/></svg>');
+}, 300);
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlas — demo scroll</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<style>
+  :root{
+    --ink:#12100e; --paper:#f4f1ea; --muted:#5d564b; --line:#ddd6c9; --accent:#b4522e;
+    --step-0:clamp(1rem,.95rem + .25vw,1.125rem);
+    --step-3:clamp(2rem,1.4rem + 3vw,4rem);
+    --step-5:clamp(3rem,1.8rem + 6vw,7.5rem);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font:var(--step-0)/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  .wrap{max-width:74rem;margin-inline:auto;padding-inline:clamp(1rem,4vw,3rem)}
+  section{padding-block:clamp(4rem,12vh,9rem)}
+
+  /* hero */
+  .hero{min-height:100svh;display:grid;align-content:center;border-bottom:1px solid var(--line)}
+  .hero h1{
+    font-size:var(--step-5);line-height:.92;letter-spacing:-.035em;margin:0 0 1.5rem;
+    font-weight:800;max-width:16ch;
+  }
+  .hero p{max-width:46ch;color:var(--muted);margin:0;font-size:clamp(1.05rem,1rem + .5vw,1.35rem)}
+  .kicker{
+    font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);
+    margin:0 0 1.5rem;font-weight:600;
+  }
+
+  /* reveal: solo transform + opacity */
+  .reveal{opacity:0;transform:translate3d(0,28px,0)}
+
+  /* sticky stack */
+  .stack{position:relative}
+  .stack__pin{min-height:100svh;display:grid;place-items:center}
+  .card{
+    position:absolute;inset:auto;width:min(46rem,86vw);
+    background:#fffdf8;border:1px solid var(--line);border-radius:1.25rem;
+    padding:clamp(1.75rem,4vw,3.25rem);box-shadow:0 1px 2px rgba(18,16,14,.05);
+    transform:translate3d(0,0,0);will-change:transform,opacity;
+  }
+  .card h2{font-size:var(--step-3);line-height:1.05;letter-spacing:-.02em;margin:0 0 .75rem}
+  .card p{color:var(--muted);margin:0;max-width:52ch}
+  .card__n{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700;display:block;margin-bottom:1rem}
+
+  /* pan horizontal */
+  .pan{overflow:hidden}
+  .pan__track{display:flex;gap:clamp(1rem,2vw,2rem);will-change:transform}
+  .panel{
+    flex:0 0 clamp(18rem,32vw,26rem);aspect-ratio:4/5;border-radius:1rem;
+    border:1px solid var(--line);padding:1.75rem;display:flex;flex-direction:column;
+    justify-content:flex-end;background:#efeade;
+  }
+  .panel:nth-child(2n){background:#e7e0d1}
+  .panel h3{margin:0 0 .35rem;font-size:1.5rem;letter-spacing:-.01em}
+  .panel span{color:var(--muted);font-size:.95rem}
+
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+
+  /* la puerta de accesibilidad de movimiento */
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1!important;transform:none!important}
+    .card,.pan__track{will-change:auto}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <p class="kicker reveal">Atlas — informe 2026</p>
+  <h1 class="reveal">El scroll es una línea de tiempo, no un accidente.</h1>
+  <p class="reveal">Cada sección avanza cuando tú avanzas. Nada se mueve porque sí, y todo se detiene si tu sistema pide menos movimiento.</p>
+</header>
+
+<section class="stack" id="stack">
+  <div class="stack__pin wrap">
+    <article class="card" data-card>
+      <span class="card__n">01</span>
+      <h2>Movimiento motivado</h2>
+      <p>Una animación existe para explicar una relación entre dos estados. Si quitas la animación y no se pierde información, sobra.</p>
+    </article>
+    <article class="card" data-card>
+      <span class="card__n">02</span>
+      <h2>Solo el compositor</h2>
+      <p>Transform y opacity se resuelven sin relayout. Animar <code>top</code> o <code>width</code> obliga al navegador a recalcular geometría en cada frame.</p>
+    </article>
+    <article class="card" data-card>
+      <span class="card__n">03</span>
+      <h2>El presupuesto manda</h2>
+      <p>60fps son 16,7 ms por frame. Todo lo que no quepa ahí se nota como tirón, por muy elegante que sea la curva.</p>
+    </article>
+  </div>
+</section>
+
+<section class="pan wrap" id="pan">
+  <div class="pan__track">
+    <div class="panel"><h3>Tipografía</h3><span>Escala fluida con clamp()</span></div>
+    <div class="panel"><h3>Ritmo</h3><span>Espaciado en progresión</span></div>
+    <div class="panel"><h3>Color</h3><span>Contraste AA verificado</span></div>
+    <div class="panel"><h3>Materia</h3><span>Papel, no cristal</span></div>
+    <div class="panel"><h3>Silencio</h3><span>Densidad baja a propósito</span></div>
+  </div>
+</section>
+
+<footer class="wrap"><p>Demo de verificación · supreme</p></footer>
+
+<script>
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!REDUCED) {
+  // Lenis: smooth scroll. Su rAF alimenta a ScrollTrigger; no hay listener de scroll propio.
+  const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+  lenis.on('scroll', () => ScrollTrigger.update());
+  gsap.ticker.add((t) => lenis.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.utils.toArray('.reveal').forEach((el, i) => {
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: .8, delay: i * .08, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
+    });
+  });
+
+  // Sticky stack: las tarjetas se apilan mientras la seccion esta clavada.
+  const cards = gsap.utils.toArray('[data-card]');
+  gsap.set(cards, { yPercent: (i) => i === 0 ? 0 : 110, opacity: (i) => i === 0 ? 1 : 0 });
+  const stackTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#stack', start: 'top top', end: '+=' + (cards.length * 90) + '%',
+      pin: '.stack__pin', scrub: .6, anticipatePin: 1
+    }
+  });
+  cards.forEach((card, i) => {
+    if (i === 0) return;
+    stackTl.to(cards[i - 1], { yPercent: -12, opacity: 0, ease: 'none' }, i - 1)
+           .to(card,        { yPercent: 0,   opacity: 1, ease: 'none' }, i - 1);
+  });
+
+  // Pan horizontal gobernado por scroll vertical.
+  const track = document.querySelector('.pan__track');
+  const overflow = () => track.scrollWidth - track.parentElement.clientWidth;
+  if (overflow() > 0) {
+    gsap.to(track, {
+      x: () => -overflow(), ease: 'none',
+      scrollTrigger: {
+        trigger: '#pan', start: 'top top', end: () => '+=' + overflow(),
+        pin: true, scrub: .5, invalidateOnRefresh: true
+      }
+    });
+  }
+} else {
+  // Sin movimiento: el contenido aparece ya en su estado final.
+  document.querySelectorAll('.reveal').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+}
+</script>
+</body>
+</html>

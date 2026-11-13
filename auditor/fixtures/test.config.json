@@ -1,0 +1,7 @@
+{
+  "maxJudgeRunsPerDay": 3,
+  "projects": [
+    { "name": "ok-project", "dir": "ok-project" },
+    { "name": "bad-project", "dir": "bad-project" }
+  ]
+}

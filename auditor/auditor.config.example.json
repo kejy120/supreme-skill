@@ -1,0 +1,9 @@
+{
+  "intervalMin": 30,
+  "maxJudgeRunsPerDay": 12,
+  "verifyTimeoutMin": 20,
+  "judgeTimeoutMin": 15,
+  "projects": [
+    { "name": "mi-proyecto", "dir": "~/ruta/a/mi-proyecto", "focus": "opcional: en qué fijarse" }
+  ]
+}
