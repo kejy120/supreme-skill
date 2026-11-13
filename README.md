@@ -1,4 +1,4 @@
-# supreme-codex
+# supreme-skill
 
 Orquestador de encargos para **Codex CLI**: enruta cada tarea a las skills que aplican (con presupuesto de tokens)
 y **bloquea la entrega con verificación medida**, no con checklists declarativos.
@@ -25,16 +25,16 @@ En Linux, Chromium puede pedir librerías del sistema: `npx playwright install-d
 ## Instalar
 
 ```bash
-git clone https://github.com/<tu-usuario>/supreme-codex.git
-cd supreme-codex
+git clone https://github.com/<tu-usuario>/supreme-skill.git
+cd supreme-skill
 ./scripts/install.sh
 ```
 
 Qué hace (nada se pisa sin copia de seguridad):
 
-1. Copia la skill a `~/.agents/skills/supreme/` (si ya había una, la mueve a `~/.agents/supreme-codex-backups/`).
+1. Copia la skill a `~/.agents/skills/supreme/` (si ya había una, la mueve a `~/.agents/supreme-skill-backups/`).
 2. Copia los agentes a `~/.codex/agents/` (los que ya existan se conservan; el nuevo queda como `*.toml.nuevo`).
-3. Añade las reglas a `~/.codex/AGENTS.md` dentro de un bloque `<!-- supreme-codex:start/end -->`; tu contenido no se toca y volver a instalar solo reemplaza ese bloque.
+3. Añade las reglas a `~/.codex/AGENTS.md` dentro de un bloque `<!-- supreme-skill:start/end -->`; tu contenido no se toca y volver a instalar solo reemplaza ese bloque.
 4. `npm install` y `npx playwright install chromium` en `~/.agents/skills/supreme/bin`.
 
 Opciones: `--project DIR` (instalar solo en un proyecto: `DIR/.agents/skills`, `DIR/.codex/agents`, `DIR/AGENTS.md`),

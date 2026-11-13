@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Instala supreme-codex para Codex CLI.
+# Instala supreme-skill para Codex CLI.
 #   ./scripts/install.sh                 global: ~/.agents/skills, ~/.codex/agents, ~/.codex/AGENTS.md
 #   ./scripts/install.sh --project DIR   solo en un proyecto: DIR/.agents/skills, DIR/.codex/agents, DIR/AGENTS.md
 # Opciones: --dry-run (solo muestra), --no-deps (no npm install), --no-browser (no descarga Chromium)
-# No pisa nada sin copia de seguridad (carpeta supreme-codex-backups junto a skills).
+# No pisa nada sin copia de seguridad (carpeta supreme-skill-backups junto a skills).
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROJECT=""; DRY=0; DEPS=1; BROWSER=1
@@ -37,7 +37,7 @@ command -v codex >/dev/null || echo "AVISO: no encuentro 'codex' en el PATH (ins
 do_ mkdir -p "$SKILLS"
 if [ -e "$SKILLS/supreme" ]; then
   # La copia va FUERA de la carpeta de skills: si no, Codex la descubriría como segunda skill "supreme".
-  BK="$(dirname "$SKILLS")/supreme-codex-backups"; do_ mkdir -p "$BK"
+  BK="$(dirname "$SKILLS")/supreme-skill-backups"; do_ mkdir -p "$BK"
   say "copia de seguridad: $SKILLS/supreme -> $BK/supreme.bak-$STAMP"; do_ mv "$SKILLS/supreme" "$BK/supreme.bak-$STAMP"
 fi
 do_ cp -r "$REPO/skills/supreme" "$SKILLS/supreme"
@@ -52,7 +52,7 @@ for f in "$REPO"/agents/*.toml; do
 done
 
 # 4. Reglas: bloque delimitado, se reemplaza solo el nuestro
-START="<!-- supreme-codex:start -->"; END="<!-- supreme-codex:end -->"
+START="<!-- supreme-skill:start -->"; END="<!-- supreme-skill:end -->"
 BLOCK="$START
 $(cat "$REPO/AGENTS.md")
 $END"
@@ -66,7 +66,7 @@ else
   fi
   printf '\n%s\n' "$BLOCK" >> "$RULES"
 fi
-say "reglas añadidas a $RULES (bloque supreme-codex; tu contenido no se toca)"
+say "reglas añadidas a $RULES (bloque supreme-skill; tu contenido no se toca)"
 
 # 5. Dependencias de los drivers web (Playwright)
 if [ "$DEPS" = 1 ]; then

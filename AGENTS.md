@@ -1,4 +1,4 @@
-# Reglas para Codex (supreme-codex)
+# Reglas para Codex (supreme-skill)
 
 Idioma por defecto: español, directo. Habla solo lo necesario: una acción pequeña que el usuario deba
 hacer, o un resumen corto de lo hecho.
